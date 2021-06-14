@@ -1,0 +1,11 @@
+trigger: none
+
+pool: vmss
+
+steps:
+- script: kubectl version --client=true
+  displayName: 'Display kubectl version'
+- script: helm version
+  displayName: 'Display helm version'
+- script: docker info
+  displayName: 'Display docker info'
