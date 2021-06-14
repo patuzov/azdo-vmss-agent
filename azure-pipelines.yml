@@ -1,0 +1,18 @@
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: |
+    curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+    sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+    sudo apt-get update && sudo apt-get install packer
+  displayName: 'Install Packer'
+  
+- script: packer --version
+  displayName: 'Display Packer version'
+  
+- script: packer build --var client_id=$(client_id) --var client_secret=$(client_secret) --var subscription_id=$(subscription_id) --var image_sufix=$(Build.BuildId) .
+  displayName: 'Packer Build'
